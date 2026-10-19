@@ -105,17 +105,17 @@ function tokenizeInline(text: string): Token[] {
 
 // ── Inline Components ───────────────────────────────────────
 
-function FoldSpan({ visible, hidden }: { visible: string; hidden: string }) {
+function FoldSpan({ visible, hidden, pages }: { visible: string; hidden: string; pages: Page[] }) {
   const [open, setOpen] = useState(false)
   return (
     <span>
       <span className="fold-trigger" onClick={() => setOpen(!open)}>
-        {visible}
+        {renderTokens(tokenizeInline(visible), pages, 'fv')}
         <span className="fold-indicator">
           {open ? <ChevronUp size={9} className="inline" /> : <ChevronDown size={9} className="inline" />}
         </span>
       </span>
-      {open && <span className="fold-content">{hidden}</span>}
+      {open && <span className="fold-content">{renderTokens(tokenizeInline(hidden), pages, 'fh')}</span>}
     </span>
   )
 }
@@ -210,7 +210,7 @@ function renderTokens(tokens: Token[], pages: Page[], key: string): ReactNode {
         : <InternalLink key={k} href={tok.href} label={tok.label} pages={pages} />
     }
     if (tok.t === 'wiki') return <WikiLink key={k} title={tok.title} display={tok.display} pages={pages} />
-    if (tok.t === 'fold') return <FoldSpan key={k} visible={tok.visible} hidden={tok.hidden} />
+    if (tok.t === 'fold') return <FoldSpan key={k} visible={tok.visible} hidden={tok.hidden} pages={pages} />
     if (tok.t === 'anno') return <Annotation key={k} v={tok.v} hl={tok.hl} ul={tok.ul} ulColor={tok.ulColor} pages={pages} />
     return null
   })}</>
@@ -229,6 +229,7 @@ type Block =
   | { type: 'code'; lang: string; code: string }
   | { type: 'bq'; text: string }
   | { type: 'hr' }
+  | { type: 'table'; header: string[]; rows: string[][] }
   | { type: 'branch'; title: string; body: string }
   | { type: 'card'; variant: string; body: string }
 
@@ -266,6 +267,15 @@ export function parseBlocks(content: string): Block[] {
       i++; continue
     }
     if (/^[-*_]{3,}$/.test(line.trim())) { flushPara(); blocks.push({ type: 'hr' }); i++; continue }
+    if (/^\s*\|/.test(line) && i + 1 < lines.length && /^\s*\|?[\s:|-]+\|?\s*$/.test(lines[i + 1]) && lines[i + 1].includes('-')) {
+      flushPara()
+      const splitRow = (row: string) =>
+        row.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim())
+      const header = splitRow(line); i += 2
+      const rows: string[][] = []
+      while (i < lines.length && /^\s*\|/.test(lines[i])) { rows.push(splitRow(lines[i])); i++ }
+      blocks.push({ type: 'table', header, rows }); continue
+    }
     if (line.startsWith('> ')) {
       flushPara(); const bq: string[] = []
       while (i < lines.length && lines[i].startsWith('> ')) { bq.push(lines[i].slice(2)); i++ }
@@ -326,6 +336,16 @@ export function MarkdownContent({ content, pages }: { content: string; pages: Pa
           return <pre key={k}><code className={block.lang ? `language-${block.lang}` : ''}>{block.code}</code></pre>
         }
         if (block.type === 'bq') return <blockquote key={k}>{inline(block.text, pages, k)}</blockquote>
+        if (block.type === 'table') return (
+          <div key={k} className="table-wrap">
+            <table>
+              <thead><tr>{block.header.map((cell, j) => <th key={j}>{inline(cell, pages, `${k}-h${j}`)}</th>)}</tr></thead>
+              <tbody>{block.rows.map((row, r) => (
+                <tr key={r}>{row.map((cell, j) => <td key={j}>{inline(cell, pages, `${k}-${r}-${j}`)}</td>)}</tr>
+              ))}</tbody>
+            </table>
+          </div>
+        )
         if (block.type === 'hr') return <hr key={k} />
         if (block.type === 'branch') return <BranchBlock key={k} title={block.title} body={block.body} pages={pages} />
         if (block.type === 'card') return <CardBlock key={k} variant={block.variant} body={block.body} pages={pages} />

@@ -5,7 +5,7 @@ tags: [logo, visual identity]
 date: 2026-10-18
 ---
 
-the submark is the brand folded into a compact circular badge — mark, word, and frame in one.
+the submark is the brand folded into a compact circular badge: mark, word, and frame in one.
 
 ## where it lives
 

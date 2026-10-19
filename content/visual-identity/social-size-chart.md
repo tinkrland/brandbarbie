@@ -1,6 +1,6 @@
 ---
 title: social size chart
-summary: every canvas, every dimension — feed, story, reels, and profile
+summary: every canvas, every dimension: feed, story, reels, and profile
 tags: [visual identity, social, applications]
 date: 2026-10-18
 ---
@@ -16,9 +16,9 @@ one reference for every canvas the brand touches. dimensions in pixels, safe zon
 
 ## instagram
 
-- feed square: 1080 × 1080 — text min 36px
-- feed portrait: 1080 × 1350 — preferred; more screen real estate
-- story / reels: 1080 × 1920 — keep 250px clear top & bottom for ui
+- feed square: 1080 × 1080. text min 36px
+- feed portrait: 1080 × 1350. preferred; more screen real estate
+- story / reels: 1080 × 1920. keep {hl:orange|250px clear top & bottom} for ui
 - carousel: 1080 × 1350, first slide does the hooking
 
 ## other channels

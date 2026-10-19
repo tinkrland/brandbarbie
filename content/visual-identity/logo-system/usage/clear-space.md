@@ -1,6 +1,6 @@
 ---
 title: clear space
-summary: breathing room around the logo — the no-go zone
+summary: breathing room around the logo: the no-go zone
 tags: [logo, visual identity, guidelines]
 date: 2026-10-18
 ---
@@ -10,7 +10,7 @@ clear space is the empty area around the logo where nothing else may enter.
 ## the rule
 
 - clear space = the height of the mark's own “b” on every side
-- nothing — type, images, other logos — enters the zone
+- nothing, type, images, other logos, enters the zone
 
 ## why it matters
 

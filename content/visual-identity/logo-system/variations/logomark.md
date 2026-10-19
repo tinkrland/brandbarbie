@@ -1,6 +1,6 @@
 ---
 title: logomark
-summary: the symbol only — for squares, avatars, and small sizes
+summary: the symbol only: for squares, avatars, and small sizes
 tags: [logo, visual identity]
 date: 2026-10-18
 ---
@@ -15,5 +15,5 @@ the logomark is the symbol alone, no text. it's what shows up at avatar size.
 
 ## rules
 
-- it must survive at 32px — that's the real test of the mark
+- it must survive at 32px: that's the real test of the mark
 - on color backgrounds it flips to mono per [[backgrounds]]

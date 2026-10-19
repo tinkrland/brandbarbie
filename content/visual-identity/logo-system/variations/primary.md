@@ -1,6 +1,6 @@
 ---
 title: primary logo
-summary: the main lockup — the default choice for most placements
+summary: the main lockup: the default choice for most placements
 tags: [logo, visual identity]
 date: 2026-10-18
 ---

@@ -5,7 +5,7 @@ tags: [logo, visual identity]
 date: 2026-10-18
 ---
 
-the secondary logo is the same elements, rearranged — usually a stacked or centered version of the primary.
+the secondary logo is the same elements, rearranged: usually a stacked or centered version of the primary.
 
 ## when to use it
 
@@ -15,4 +15,4 @@ the secondary logo is the same elements, rearranged — usually a stacked or cen
 ## rules
 
 - never place primary and secondary in the same view
-- stacked version drops to [[minimum size]] sooner — check before shrinking
+- stacked version drops to [[minimum size]] sooner: check before shrinking

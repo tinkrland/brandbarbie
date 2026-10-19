@@ -1,6 +1,6 @@
 ---
 title: wordmark
-summary: the name alone — letterforms as the logo
+summary: the name alone: letterforms as the logo
 tags: [logo, visual identity]
 date: 2026-10-18
 ---
@@ -14,5 +14,5 @@ the wordmark is the brand name set in letterforms that are recognizable enough t
 
 ## care
 
-- never stretch, condense, or set in another font — see [[logo misuse]]
+- never stretch, condense, or set in another font: see [[logo misuse]]
 - the wordmark pairs with photography better than the full lockup does

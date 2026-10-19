@@ -1,6 +1,6 @@
 ---
 title: audience & ideal client
-summary: ideal client profile and personas — who brandbarbie is for
+summary: ideal client profile and personas: who brandbarbie is for
 tags: [strategy]
 date: 2026-10-18
 ---
@@ -9,7 +9,7 @@ if everyone is the audience, no one is. this page defines who brandbarbie actual
 
 ## ideal client
 
-- creative small-business owners (solo to ~10 people) who sell something visual — jewelry, stationery, baked goods, photography, coaching
+- creative small-business owners (solo to ~10 people) who sell something visual: jewelry, stationery, baked goods, photography, coaching
 - they have taste but no time; they want the brand to feel *them*, only more polished
 - they buy clarity: a system they can use themselves, not a 60-page pdf they'll never open
 

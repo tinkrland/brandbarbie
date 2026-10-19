@@ -9,7 +9,7 @@ the inbox is a small, harsh canvas: 600px wide, dark mode lurking, a finger hove
 
 ## newsletter
 
-- header: 600 × 200, flat palette background, one motif — same header every issue; consistency is the feature
+- header: 600 × 200, flat palette background, one motif. same header every issue; consistency is the feature
 - body: 16px minimum, one column, no full-width images
 - footer: a divider from [[graphic elements]], then plain text links
 

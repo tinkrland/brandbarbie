@@ -1,6 +1,6 @@
 ---
 title: social media
-summary: feed grid, story templates, highlight covers — the brand on the timeline
+summary: feed grid, story templates, highlight covers: the brand on the timeline
 tags: [applications, social]
 date: 2026-10-18
 ---
@@ -9,7 +9,7 @@ social is where the brand lives daily, so the system is strictest here.
 
 ## the feed grid
 
-- alternating rhythm: photo / graphic / photo / quote — a checkerboard of textures at thumbnail distance
+- alternating rhythm: photo / graphic / photo / quote. a checkerboard of textures at thumbnail distance
 - photo posts follow [[photography]]; graphic posts use one palette (see [[palette library]]) and one motif (see [[motifs]])
 - carousels: first slide hooks, second delivers, the rest go deeper
 

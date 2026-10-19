@@ -1,13 +1,13 @@
 ---
 title: bubblegum core palette
-summary: the everyday palette — pink forward, grounded by ink and cream
+summary: the everyday palette: pink forward, grounded by ink and cream
 tags: [color, visual identity]
 date: 2026-10-18
 ---
 
 the core palette. most of what the brand wears comes from here.
 
-## swatches (starter set — replace with final values)
+## swatches (starter set: replace with final values)
 
 | role | name | hex |
 |---|---|---|
