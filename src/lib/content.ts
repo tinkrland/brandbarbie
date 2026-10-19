@@ -6,6 +6,7 @@ export interface Frontmatter {
   cover?: string
   draft?: boolean
   password?: string
+  order?: number
 }
 
 export interface Page {
@@ -22,9 +23,10 @@ export interface TreeNode {
   slug?: string
   children: TreeNode[]
   isFolder: boolean
+  order?: number
 }
 
-const rawFiles = import.meta.glob('/content/**/*.md', { as: 'raw', eager: true }) as Record<string, string>
+const rawFiles = import.meta.glob('/content/**/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 
 function parseFrontmatter(raw: string): { frontmatter: Frontmatter; content: string } {
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/)
@@ -37,7 +39,10 @@ function parseFrontmatter(raw: string): { frontmatter: Frontmatter; content: str
     if (!kv) continue
     const [, key, value] = kv
     const v = value.trim().replace(/^["']|["']$/g, '')
-    if (key === 'tags') {
+    if (key === 'order') {
+      const n = parseFloat(v)
+      if (!Number.isNaN(n)) fm.order = n
+    } else if (key === 'tags') {
       fm.tags = v.replace(/[\[\]]/g, '').split(',').map(t => t.trim()).filter(Boolean)
     } else if (key === 'draft') {
       fm.draft = v === 'true'
@@ -106,7 +111,7 @@ export function buildTree(): TreeNode {
       const part = parts[i]
       const isLast = i === parts.length - 1
       if (isLast) {
-        node.children.push({ name: page.title, slug: page.slug, children: [], isFolder: false })
+        node.children.push({ name: page.title, slug: page.slug, children: [], isFolder: false, order: page.frontmatter.order })
       } else {
         let folder = node.children.find(c => c.isFolder && c.name === part)
         if (!folder) {
@@ -117,8 +122,17 @@ export function buildTree(): TreeNode {
       }
     }
   }
+  // a folder's order is the smallest order among its children, so putting
+  // `order: n` on a folder's lead page positions the folder itself
+  const nodeOrder = (n: TreeNode): number =>
+    n.isFolder ? (n.children.length ? Math.min(...n.children.map(nodeOrder)) : Infinity) : (n.order ?? Infinity)
+
   const sortNodes = (nodes: TreeNode[]) => {
-    nodes.sort((a, b) => (a.isFolder === b.isFolder ? a.name.localeCompare(b.name) : a.isFolder ? -1 : 1))
+    nodes.sort((a, b) => {
+      if (a.isFolder !== b.isFolder) return a.isFolder ? -1 : 1
+      const oa = nodeOrder(a); const ob = nodeOrder(b)
+      return oa === ob ? a.name.localeCompare(b.name) : oa - ob
+    })
     nodes.forEach(n => sortNodes(n.children))
   }
   sortNodes(root.children)

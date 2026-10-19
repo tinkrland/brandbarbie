@@ -2,6 +2,7 @@
 title: palette library
 summary: the multiple palettes: core, seasonal, and one-offs
 tags: [color, visual identity]
+order: 1
 date: 2026-10-18
 ---
 

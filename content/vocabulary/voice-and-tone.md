@@ -2,6 +2,7 @@
 title: voice & tone
 summary: how brandbarbie sounds: warm, candid, playful, precise, encouraging
 tags: [vocabulary, voice]
+order: 4
 date: 2026-10-18
 ---
 

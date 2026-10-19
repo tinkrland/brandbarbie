@@ -2,6 +2,7 @@
 title: brand kit overview
 summary: what do I actually need? the kit, tiered by honesty
 tags: [brand kit, start-here]
+order: 5
 date: 2026-10-18
 ---
 

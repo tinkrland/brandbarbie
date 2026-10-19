@@ -2,6 +2,7 @@
 title: website
 summary: the storefront: hero, sections, and the site's structure
 tags: [applications, web]
+order: 3
 date: 2026-10-18
 ---
 

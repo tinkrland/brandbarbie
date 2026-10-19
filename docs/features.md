@@ -3,8 +3,11 @@
 ## content
 
 - markdown rendering with custom inline and block parsers
-- frontmatter support (title, tags, date, summary, cover, password, draft)
+- frontmatter support (title, tags, date, summary, cover, password, draft, order)
 - wiki-links with `[[title]]` and `[[title|display text]]` syntax
+- images and video files colocated in `content/`, embedded with `![alt](path)`
+- youtube and vimeo links on their own line render as embedded players
+- sidebar tree order controlled by frontmatter `order` (a folder is ordered by its lead page)
 - automatic backlinks
 - tag pages listing all notes that use a tag
 - folder-based sidebar tree

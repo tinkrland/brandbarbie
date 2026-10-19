@@ -2,6 +2,7 @@
 title: motifs
 summary: the recurring symbols: bows, hearts, stars, and the brand's visual vocabulary
 tags: [illustration, visual identity]
+order: 1
 date: 2026-10-18
 ---
 

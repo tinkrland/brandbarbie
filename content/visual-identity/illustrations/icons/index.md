@@ -2,6 +2,7 @@
 title: icons
 summary: the icon system: stroke weight, corner radius, and the sparkle exceptions
 tags: [illustration, visual identity]
+order: 1
 date: 2026-10-18
 ---
 

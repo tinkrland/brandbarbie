@@ -2,6 +2,7 @@
 title: characters
 summary: if the brand gets a character: the rules that keep it from becoming clip art
 tags: [illustration, visual identity]
+order: 1
 date: 2026-10-18
 ---
 

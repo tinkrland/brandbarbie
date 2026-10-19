@@ -2,6 +2,7 @@
 title: textures
 summary: grain, gloss, glitter: the surface treatments that keep flat design from feeling sterile
 tags: [illustration, visual identity]
+order: 1
 date: 2026-10-18
 ---
 

@@ -2,6 +2,7 @@
 title: brand strategy overview
 summary: the why behind the visuals: start here before touching a single pixel
 tags: [strategy, start-here]
+order: 1
 date: 2026-10-18
 ---
 

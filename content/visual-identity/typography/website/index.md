@@ -2,6 +2,7 @@
 title: website typography
 summary: type on the web: what changes, what loads, and how it scales
 tags: [typography, visual identity, web]
+order: 1
 date: 2026-10-18
 ---
 

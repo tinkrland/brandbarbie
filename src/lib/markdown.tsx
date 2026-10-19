@@ -6,6 +6,28 @@ import { Page } from './content'
 import PagePreviewCard from '@/components/PagePreviewCard'
 import MermaidBlock from '@/components/MermaidBlock'
 
+// ── Media (images + video, colocated with content) ─────────
+const mediaFiles = import.meta.glob('/content/**/*.{png,jpg,jpeg,gif,webp,avif,svg,mp4,webm,mov,m4v}', { query: '?url', import: 'default', eager: true }) as Record<string, string>
+
+/** resolve a markdown media src to a built asset url; external urls pass through */
+function resolveMedia(src: string): string | null {
+  if (isExternal(src)) return src
+  const norm = src.replace(/^[./]+/, '').replace(/^content\//, '')
+  const key = Object.keys(mediaFiles).find(k => k.endsWith(norm))
+  return key ? mediaFiles[key] : null
+}
+
+const VIDEO_RE = /\.(mp4|webm|mov|m4v)$/i
+
+function MediaTag({ alt, src }: { alt: string; src: string }) {
+  const resolved = resolveMedia(src)
+  if (!resolved) return <span className="wiki-link-broken">missing media: {alt || src}</span>
+  if (VIDEO_RE.test(resolved.split('?')[0])) {
+    return <video controls playsInline src={resolved} className="md-video" />
+  }
+  return <img src={resolved} alt={alt} loading="lazy" className="md-image" />
+}
+
 // ── Inline Tokens ───────────────────────────────────────────
 type Token =
   | { t: 'text'; v: string }
@@ -13,6 +35,7 @@ type Token =
   | { t: 'italic'; v: string }
   | { t: 'code'; v: string }
   | { t: 'link'; href: string; label: string }
+  | { t: 'media'; alt: string; src: string }
   | { t: 'wiki'; title: string; display?: string }
   | { t: 'fold'; visible: string; hidden: string }
   | { t: 'anno'; v: string; hl?: string; ul?: string; ulColor?: string }
@@ -84,6 +107,15 @@ function tokenizeInline(text: string): Token[] {
     if (text[i] === '`') {
       const end = text.indexOf('`', i + 1)
       if (end !== -1) { push({ t: 'code', v: text.slice(i + 1, end) }); i = end + 1; continue }
+    }
+
+    // Media: ![alt](src) — images and video files
+    if (text[i] === '!' && text[i + 1] === '[') {
+      const te = text.indexOf(']', i)
+      if (te !== -1 && text[te + 1] === '(') {
+        const ue = text.indexOf(')', te + 2)
+        if (ue !== -1) { push({ t: 'media', alt: text.slice(i + 2, te), src: text.slice(te + 2, ue) }); i = ue + 1; continue }
+      }
     }
 
     // Link: [text](url)
@@ -209,6 +241,7 @@ function renderTokens(tokens: Token[], pages: Page[], key: string): ReactNode {
         ? <ExternalLink key={k} href={tok.href} label={tok.label} />
         : <InternalLink key={k} href={tok.href} label={tok.label} pages={pages} />
     }
+    if (tok.t === 'media') return <MediaTag key={k} alt={tok.alt} src={tok.src} />
     if (tok.t === 'wiki') return <WikiLink key={k} title={tok.title} display={tok.display} pages={pages} />
     if (tok.t === 'fold') return <FoldSpan key={k} visible={tok.visible} hidden={tok.hidden} pages={pages} />
     if (tok.t === 'anno') return <Annotation key={k} v={tok.v} hl={tok.hl} ul={tok.ul} ulColor={tok.ulColor} pages={pages} />
@@ -230,6 +263,7 @@ type Block =
   | { type: 'bq'; text: string }
   | { type: 'hr' }
   | { type: 'table'; header: string[]; rows: string[][] }
+  | { type: 'embed'; url: string }
   | { type: 'branch'; title: string; body: string }
   | { type: 'card'; variant: string; body: string }
 
@@ -276,6 +310,10 @@ export function parseBlocks(content: string): Block[] {
       while (i < lines.length && /^\s*\|/.test(lines[i])) { rows.push(splitRow(lines[i])); i++ }
       blocks.push({ type: 'table', header, rows }); continue
     }
+    // Video embed: a bare YouTube/Vimeo url on its own line
+    if (/^https?:\/\/(www\.)?(youtube\.com\/watch\?v=\S+|youtu\.be\/\S+|vimeo\.com\/\d+\S*)$/i.test(line.trim())) {
+      flushPara(); blocks.push({ type: 'embed', url: line.trim() }); i++; continue
+    }
     if (line.startsWith('> ')) {
       flushPara(); const bq: string[] = []
       while (i < lines.length && lines[i].startsWith('> ')) { bq.push(lines[i].slice(2)); i++ }
@@ -295,6 +333,23 @@ export function parseBlocks(content: string): Block[] {
   }
   flushPara()
   return blocks
+}
+
+function EmbedBlock({ url }: { url: string }) {
+  const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{6,})/)
+  const vimeo = url.match(/vimeo\.com\/(\d+)/)
+  const src = yt ? `https://www.youtube-nocookie.com/embed/${yt[1]}` : vimeo ? `https://player.vimeo.com/video/${vimeo[1]}` : null
+  if (!src) return <a href={url} target="_blank" rel="noopener noreferrer" className="external-link">{url}</a>
+  return (
+    <div className="embed-block">
+      <iframe
+        src={src}
+        title="video embed"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    </div>
+  )
 }
 
 function BranchBlock({ title, body, pages }: { title: string; body: string; pages: Page[] }) {
@@ -347,6 +402,7 @@ export function MarkdownContent({ content, pages }: { content: string; pages: Pa
           </div>
         )
         if (block.type === 'hr') return <hr key={k} />
+        if (block.type === 'embed') return <EmbedBlock key={k} url={block.url} />
         if (block.type === 'branch') return <BranchBlock key={k} title={block.title} body={block.body} pages={pages} />
         if (block.type === 'card') return <CardBlock key={k} variant={block.variant} body={block.body} pages={pages} />
         return null

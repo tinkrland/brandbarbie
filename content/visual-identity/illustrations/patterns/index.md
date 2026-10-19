@@ -2,6 +2,7 @@
 title: patterns
 summary: repeating surface patterns: scales, colors, and where pattern is allowed
 tags: [illustration, visual identity]
+order: 1
 date: 2026-10-18
 ---
 

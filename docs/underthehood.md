@@ -43,7 +43,7 @@ src/
 
 `markdown.tsx` is two layers:
 
-- `tokenizeInline(text)` walks a string once and produces tokens for bold, italic, code, links, wiki-links, folds, and annotations
+- `tokenizeInline(text)` walks a string once and produces tokens for bold, italic, code, links, media, wiki-links, folds, and annotations
 - `parseBlocks(content)` walks the document line by line and produces blocks for headings, paragraphs, lists, code, blockquotes, hr, callouts, and branches
 - `MarkdownContent` maps blocks to react elements, recursing into the inline pipeline for any text content
 

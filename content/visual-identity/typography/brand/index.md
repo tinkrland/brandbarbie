@@ -2,6 +2,7 @@
 title: brand typography
 summary: the brand typefaces: display, body, and the rules that keep them in character
 tags: [typography, visual identity]
+order: 1
 date: 2026-10-18
 ---
 

@@ -2,6 +2,7 @@
 title: brand board
 summary: the one-page summary everyone posts: logo, palette, type, texture, mood
 tags: [visual identity, start-here]
+order: 2
 date: 2026-10-18
 ---
 
